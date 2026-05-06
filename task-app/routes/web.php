@@ -9,3 +9,4 @@ Route::get('/', function () {
 
 Route::get('/tasks', [TaskController::class, 'index']);
 Route::get('/tasks/{id}', [TaskController::class, 'show']);
+Route::get('/tasks/destroy/{id}', [TaskController::class, 'destroy']);

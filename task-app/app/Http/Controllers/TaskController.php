@@ -3,22 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
     public function index() 
     {
-        return [
-            'Task: 1',
-            'Task: 2',
-            'Task: 3',
-            'Task: 4',
-            'Task: 5',
-            ];
+        Task::create([
+            'title' => 'Learn Laravel',
+            'completed' => false
+        ]);
+
+        return Task::all();
     }
 
     public function show($id) 
     {
-        return "Task ID: " . $id;
+        return Task::find($id);
+    }
+
+    public function destroy($id) 
+    {
+        return Task::destroy($id);
     }
 }
