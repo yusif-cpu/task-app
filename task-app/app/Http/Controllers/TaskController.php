@@ -9,12 +9,17 @@ class TaskController extends Controller
 {
     public function index() 
     {
-        Task::create([
-            'title' => 'Learn Laravel',
+        return Task::all();
+    }
+
+    public function store(Request $request)
+    {
+        $task = Task::create([
+            'title' => $request->title,
             'completed' => false
         ]);
 
-        return Task::all();
+        return $task;
     }
 
     public function show($id) 
