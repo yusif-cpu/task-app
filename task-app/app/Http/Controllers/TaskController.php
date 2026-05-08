@@ -14,6 +14,10 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:255'
+        ]);
+        
         $task = Task::create([
             'title' => $request->title,
             'completed' => false
@@ -27,8 +31,25 @@ class TaskController extends Controller
         return Task::find($id);
     }
 
+    public function update(Request $request, $id) 
+    {
+        $task = Task::find($id);
+
+        $task->update([
+            'title' => $request->title
+        ]);
+
+        return $task;
+    }
+
     public function destroy($id) 
     {
-        return Task::destroy($id);
+        $task = Task::find($id);
+
+        $task->delete();
+
+        return response()->json([
+            "Message" => 'Task ID: ' . $task->id . ' deleted'
+        ]);
     }
 }
