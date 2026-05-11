@@ -9,7 +9,11 @@ class TaskController extends Controller
 {
     public function index() 
     {
-        return Task::all();
+        $tasks = Task::all();
+
+        return response()->json([
+            'data' => $tasks
+        ]);
     }
 
     public function store(Request $request)
@@ -28,23 +32,34 @@ class TaskController extends Controller
 
     public function show($id) 
     {
-        return Task::find($id);
+        $task = Task::findOrFail($id);
+
+            return response()->json([
+                'data' => $task
+            ]);
     }
 
     public function update(Request $request, $id) 
     {
-        $task = Task::find($id);
+        $task = Task::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|max:255'
+        ]);
 
         $task->update([
             'title' => $request->title
         ]);
 
-        return $task;
+        return response()->json([
+            'message' => 'Task updated successfully',
+            'data' => $task
+        ]);
     }
 
     public function destroy($id) 
     {
-        $task = Task::find($id);
+        $task = Task::findOrFail($id);
 
         $task->delete();
 
