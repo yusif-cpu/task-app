@@ -12,3 +12,7 @@ Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
 
 // for customers
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/tasks', [TaskController::class, 'index']);
+});
