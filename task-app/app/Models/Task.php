@@ -10,4 +10,9 @@ class Task extends Model
         'title',
         'completed'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

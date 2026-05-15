@@ -9,7 +9,7 @@ class TaskController extends Controller
 {
     public function index() 
     {
-        $tasks = Task::all();
+        $tasks = Task::where('user_id', auth()->id())->get();
 
         return response()->json([
             'data' => $tasks
@@ -24,10 +24,14 @@ class TaskController extends Controller
         
         $task = Task::create([
             'title' => $request->title,
-            'completed' => false
+            'completed' => false,
+            'user_id' => auth()->id()
         ]);
 
-        return $task;
+        return response()->json([
+            'message' => 'Task created',
+            'data' => $task
+        ]);
     }
 
     public function show($id) 
