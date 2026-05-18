@@ -47,6 +47,13 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
+        if ($task->user_id !== auth()->id()) 
+        {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
         $request->validate([
             'title' => 'required|max:255'
         ]);
@@ -64,6 +71,13 @@ class TaskController extends Controller
     public function destroy($id) 
     {
         $task = Task::findOrFail($id);
+
+        if ($task->user_id !== auth()->id())
+        {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
 
         $task->delete();
 
