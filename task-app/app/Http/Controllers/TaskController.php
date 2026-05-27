@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Http\Resources\TaskResource;
 
 class TaskController extends Controller
 {
@@ -11,9 +12,11 @@ class TaskController extends Controller
     {
         $tasks = Task::where('user_id', auth()->id())->get();
 
-        return response()->json([
-            'data' => $tasks
-        ]);
+        // return response()->json([
+        //     'data' => $tasks
+        // ]);
+
+        return TaskResource::collection($tasks);
     }
 
     public function store(Request $request)
@@ -38,9 +41,11 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-            return response()->json([
-                'data' => $task
-            ]);
+        // return response()->json([
+        //     'data' => $task
+        // ]);
+
+        return new TaskResource($task);
     }
 
     public function update(Request $request, $id) 
