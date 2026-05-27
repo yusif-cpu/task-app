@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Http\Resources\TaskResource;
+use App\Http\Requests\StoreTaskRequest;
 
 class TaskController extends Controller
 {
@@ -19,11 +20,11 @@ class TaskController extends Controller
         return TaskResource::collection($tasks);
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $request->validate([
-            'title' => 'required|max:255'
-        ]);
+        // $request->validate([
+        //     'title' => 'required|max:255'
+        // ]);
         
         $task = Task::create([
             'title' => $request->title,
@@ -31,10 +32,12 @@ class TaskController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        return response()->json([
-            'message' => 'Task created',
-            'data' => $task
-        ]);
+        // return response()->json([
+        //     'message' => 'Task created',
+        //     'data' => $task
+        // ]);
+
+        return new TaskResource($task);
     }
 
     public function show($id) 
@@ -48,7 +51,7 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function update(Request $request, $id) 
+    public function update(StoreTaskRequest $request, $id) 
     {
         $task = Task::findOrFail($id);
 
@@ -59,9 +62,9 @@ class TaskController extends Controller
             ], 403);
         }
 
-        $request->validate([
-            'title' => 'required|max:255'
-        ]);
+        // $request->validate([
+        //     'title' => 'required|max:255'
+        // ]);
 
         $task->update([
             'title' => $request->title
