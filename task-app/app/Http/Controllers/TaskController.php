@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Http\Resources\TaskResource;
 use App\Http\Requests\StoreTaskRequest;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
+    protected $taskService;
+
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
+
     public function index() 
     {
         $tasks = Task::where('user_id', auth()->id())->get();
@@ -22,20 +30,10 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request)
     {
-        // $request->validate([
-        //     'title' => 'required|max:255'
-        // ]);
-        
-        $task = Task::create([
-            'title' => $request->title,
-            'completed' => false,
-            'user_id' => auth()->id()
-        ]);
-
-        // return response()->json([
-        //     'message' => 'Task created',
-        //     'data' => $task
-        // ]);
+        $task = $this->taskService->createTask(
+            $request->validated(),
+            auth()->id()
+        );
 
         return new TaskResource($task);
     }
