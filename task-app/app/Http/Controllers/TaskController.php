@@ -25,13 +25,19 @@ class TaskController extends Controller
         return TaskListResource::collection($tasks);
     }
 
+    public function show($id)
+    {
+        $task = $this->taskService->getUserTask($id);
+
+        return new TaskListResource($task);
+    }
+
     public function store(StoreTaskRequest $request)
     {
         $task = $this->taskService->createTask(
-            $request->validated(),
-            auth()->id()
+            $request->validated()
         );
-
+  
         return new TaskResource($task);
     }
 
@@ -54,5 +60,19 @@ class TaskController extends Controller
         );
 
         return new TaskResource($task);
+    }
+
+    public function test()
+    {
+        $tasks = Task::with('user')->get();
+
+        foreach ($tasks as $task)
+        {
+            $title[] = $task->user?->name;
+            // $title[] = optional($task->user)->name;
+        }
+
+        // return Task::with('user')->paginate(5);
+        return TaskResource::collection(Task::with('user')->where('user_id', auth()->id())->paginate(5));
     }
 }

@@ -16,4 +16,15 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeOwnedBy($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+    public function scopeTaskBy($query, $taskId, $userId)
+    {
+        return $query
+        ->where('id', $taskId)
+        ->where('user_id', $userId);
+    }
 }

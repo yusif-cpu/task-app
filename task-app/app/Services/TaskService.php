@@ -3,28 +3,36 @@
 namespace App\Services;
 
 use App\Models\Task;
+use App\Models\User;
 
 class TaskService
 {
-    public function createTask($data, $userId)
+    public function createTask($data)
     {
-        return Task::create([
+        return auth()->user()->tasks()->create([
             'title' => $data['title'],
             'completed' => false,
-            'user_id' => $userId
+            'user_id' => auth()->id()
         ]);
     }
 
     public function getUserTasks($userId)
     {
-        return Task::where('user_id', $userId)->get();
+        // return Task::where('user_id', $userId)->get();
+        // return auth()->user()->tasks;
+        // return Task::where('user_id', $userId)->get();
+        return Task::ownedBy($userId)->get();
+    }
+
+    public function getUserTask($taskId)
+    {
+        // return auth()->user()->tasks()->where('id', $taskId)->firstOrFail();
+        return Task::taskBy($taskId, auth()->id())->firstOrFail();
     }
 
     public function updateUserTask($data, $taskId, $userId)
     {
-        $task = Task::where('id', $taskId)
-            ->where('user_id', $userId)
-            ->firstOrFail();
+        $task = auth()->user()->tasks()->findOrFail($taskId);
 
         $task->update([
             'title' => $data['title']
@@ -35,9 +43,8 @@ class TaskService
 
     public function destroyUserTask($taskId, $userId)
     {   
-        $task = Task::where('id', $taskId)
-                ->where('user_id', $userId)
-                ->firstOrFail();
+        $task = auth()->user()->tasks()
+                ->findOrFail($taskId);
 
         $task->delete();
 
