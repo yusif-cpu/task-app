@@ -7,10 +7,18 @@ use App\Models\User;
 
 class TaskService
 {
-    public function createTask($data)
+    public function createTask($data, $image)
     {
+        $path = null;
+
+        if($image)
+        {
+            $path = $image->store('tasks', 'public');
+        }
+
         return auth()->user()->tasks()->create([
             'title' => $data['title'],
+            'image' => $path,
             'completed' => false
         ]);
     }

@@ -35,7 +35,8 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         $task = $this->taskService->createTask(
-            $request->validated()
+            $request->validated(),
+            $request->file('image')
         );
   
         return new TaskResource($task);
