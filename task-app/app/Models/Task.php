@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Task extends Model
 {
@@ -26,5 +27,19 @@ class Task extends Model
         return $query
         ->where('id', $taskId)
         ->where('user_id', $userId);
+    }
+
+    protected function title(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => trim($value),
+            get: fn ($value) => ucwords($value),
+        );
+    }
+    protected function titleDb(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => trim($value)
+        );
     }
 }

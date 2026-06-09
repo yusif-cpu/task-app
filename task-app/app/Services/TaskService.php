@@ -11,8 +11,7 @@ class TaskService
     {
         return auth()->user()->tasks()->create([
             'title' => $data['title'],
-            'completed' => false,
-            'user_id' => auth()->id()
+            'completed' => false
         ]);
     }
 
