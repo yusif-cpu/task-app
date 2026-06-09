@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Events\TaskCreated;
 
 class TaskService
 {
@@ -16,11 +17,16 @@ class TaskService
             $path = $image->store('tasks', 'public');
         }
 
-        return auth()->user()->tasks()->create([
+
+        $task = auth()->user()->tasks()->create([
             'title' => $data['title'],
             'image' => $path,
             'completed' => false
         ]);
+
+        event(new TaskCreated($task));
+
+        return $task;
     }
 
     public function getUserTasks($userId)
