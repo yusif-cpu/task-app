@@ -20,7 +20,7 @@ A RESTful Task Management API built with Laravel.
 
 * PHP
 * Laravel
-* MySQL
+* SQLite
 * Laravel Sanctum
 * Eloquent ORM
 
