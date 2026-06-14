@@ -93,6 +93,21 @@ php artisan serve
 * Events & Listeners: Task creation logging
 * Models: Database interaction
 
+### Upcoming Features
+
+- [ ] Task Priority Levels (Low, Medium, High)
+- [ ] Task Categories
+- [ ] Task Status Tracking
+- [ ] Task Search & Filtering
+- [ ] Pagination
+- [ ] Soft Deletes
+- [ ] Email Notifications
+- [ ] Queue Jobs
+- [ ] Caching
+- [ ] API Rate Limiting
+- [ ] User Profile Management
+- [ ] Role & Permission System
+
 ## Author
 
 Yusif Ibrahimov
