@@ -21,7 +21,6 @@ class TaskResource extends JsonResource
             'image' => $this->image,
             'completed' => $this->completed,
             'created_at' => $this->created_at,
-            'user_id' => auth()->id()
         ];
     }
 }

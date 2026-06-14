@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Task;
+use App\Models\User;
 use App\Events\TaskCreated;
 
 class TaskService
@@ -42,7 +43,7 @@ class TaskService
         return Task::taskBy($taskId, auth()->id())->firstOrFail();
     }
 
-    public function updateUserTask($data, $taskId)
+    public function updateUserTask($data, $taskId, $userId)
     {
         $task = auth()->user()->tasks()->findOrFail($taskId);
 
@@ -53,7 +54,7 @@ class TaskService
         return $task;
     }
 
-    public function destroyUserTask($taskId)
+    public function destroyUserTask($taskId, $userId)
     {   
         $task = auth()->user()->tasks()
                 ->findOrFail($taskId);

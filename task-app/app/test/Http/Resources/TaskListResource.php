@@ -18,7 +18,8 @@ class TaskListResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'completed' =? $this->completed
+            'image' => $this->image,
+            'user_id' => auth()->id()
         ];
     }
 }
